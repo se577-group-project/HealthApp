@@ -1,2 +1,1 @@
-web: gunicorn HealthApp.wsgi --log-file -
-web: gunicorn -b :$PORT app:app
+web: gunicorn app.wsgi --log-file -
