@@ -1,1 +1,6 @@
-django >= 2.1.6, < 3.0 
+Django==2.2.1
+pip==19.0.3
+pytz==2019.1
+setuptools==40.8.0
+sqlparse==0.3.0
+django_heroku==0.3.1
