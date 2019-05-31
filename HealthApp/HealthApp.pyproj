@@ -42,6 +42,7 @@
     <Compile Include="HealthApp\settings.py" />
     <Compile Include="HealthApp\urls.py" />
     <Compile Include="HealthApp\wsgi.py" />
+    <Compile Include="setup.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\" />
@@ -56,6 +57,7 @@
     <Folder Include="HealthApp\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pipfile" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />
