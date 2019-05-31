@@ -1,1 +1,1 @@
-web: gunicorn /HealthApp/HealthApp.wsgi --log-file -
+web: gunicorn --pythonpath HealthApp HealthApp.wsgi --log-file -
