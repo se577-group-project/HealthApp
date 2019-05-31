@@ -86,6 +86,8 @@
     <Content Include="app\templates\app\layout.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="Procfile" />
+    <Content Include="runtime.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.html">
