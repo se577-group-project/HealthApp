@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from app.models import UsersProfile
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 def home(request):
@@ -39,16 +40,26 @@ def login(request):
                 if user.is_active:
                     auth_login(request,user)
                     return HttpResponseRedirect(reverse('home'))
+
+            messages.error(request,'There was an error when you tried to login.. please try again')
         
         if request.POST.get('signupbtn'):
             username = request.POST.get('usernameSignup')
+            email = request.POST.get('emailSignupPri')
             password = request.POST.get('passwordSignupPri')
             passwordVerifiction = request.POST.get('passwordSignupSec')
 
-            if True:#verify(username, password):
+            if 'customeroptradio' in request.POST:
+                customertype = request.POST.get('customeroptradio')
+            else:
+                customertype = request.POST.get('businessoptradio')
 
-                user = User.objects.create_user(username=username, email='JohnDoe@beatles.com', password=password)
+            if True:# TODO: verify(username, password):
+
+                user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
+
+                #TODO: add users to database
 
                 user = authenticate(request, username=username, password=password)
 
@@ -57,15 +68,15 @@ def login(request):
             
                     return HttpResponseRedirect(reverse('home'))
         
-        message = {'Error' : 'There was an error when you tried to login.. please try again',}
-        context = {'message' : message}
-
-        return render(request, 'app/login.html', {'context': context})
+                #TODO: Add error messages 
+        
+        return render(request, 'app/login.html')
      
     else:
         return render(request, 'app/login.html', {})
 
-        #TODO create a verification function
+        #TODO: move all user input to user_verification.py
+        #TODO: create a verification function
         def verify(username, password):
             return True
 

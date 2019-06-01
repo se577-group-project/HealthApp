@@ -112,6 +112,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
 
+#TODO if you need to debug
+#https://simpleisbetterthancomplex.com/tips/2016/09/06/django-tip-14-messages-framework.html
+#from django.contrib.messages import constants as message_constants
+#MESSAGE_LEVEL = message_constants.DEBUG
+
 
 # Configure Django App for Heroku.
 import django_heroku
