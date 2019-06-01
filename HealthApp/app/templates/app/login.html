@@ -4,36 +4,53 @@
 
 <h2>{{ title }}</h2>
 <div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            <form action="." method="post" class="form-horizontal">
-                {% csrf_token %}
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div class="form-group">
-                    <label for="id_username" class="col-md-2 control-label">User name</label>
-                    <div class="col-md-10">
-                        {{ form.username }}
-                    </div>
+<div class="container login-container">
+            <div class="row">
+                <div class="col-md-6 login-form-1">
+                    <h3>Login</h3>
+                    <form action="{% url 'login' %}" method="post" class="form-horizontal">
+                        {% csrf_token %}
+
+                        <small style="color: red">{{ message.Error }}</small>
+                 
+                        <div class="form-group">
+                            <input type="text" name="usernameLogin" class="form-control" placeholder="Your Username *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="passwordLogin" class="form-control" placeholder="Your Password *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="loginbtn" class="btnSubmit" value="Login" />
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="ForgetPwd">Forget Password?</a>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="id_password" class="col-md-2 control-label">Password</label>
-                    <div class="col-md-10">
-                        {{ form.password }}
-                    </div>
+                <div class="col-md-6 login-form-2">
+                    <h3>Sign Up</h3>
+                    <form action="{% url 'login' %}" method="post" class="form-horizontal">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" name="usernameSignup" class="form-control" placeholder="Your Username *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="passwordSignupPri" class="form-control" placeholder="Your Password *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="passwordSignupSec" class="form-control" placeholder="Re-Type Your Password *" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label class="radio-inline"><input type="radio" name="optradio" checked>Customer</label>
+                            <label class="radio-inline"><input type="radio" name="optradio">Business</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="signupbtn" class="btnSubmit" value="Register" />
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="hidden" name="next" value="/" />
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                {% if form.errors %}
-                <p class="validation-summary-errors">Please enter a correct user name and password.</p>
-                {% endif %}
-            </form>
-        </section>
-    </div>
+            </div>
+        </div>
     <div class="col-md-4">
         <section id="socialLoginForm"></section>
     </div>
