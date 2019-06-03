@@ -8,10 +8,10 @@ from django.contrib.auth import login as auth_login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-#from app.models import UsersProfile
 from django.contrib.auth.models import User
 from django.contrib import messages
 from app.database_interface import Database_Interface
+from app.user_verification import User_Verification
 
 
 
@@ -30,31 +30,26 @@ def home(request):
 
 def login(request):
     if request.method == 'POST':
-        #form = SignUpForm(request.POST)
         if request.POST.get('loginbtn'):
             username = request.POST.get('usernameLogin')
             password = request.POST.get('passwordLogin')
 
-            #TODO: uncomment when method is implemented
-            #verify(username, password) 
-
-            user = authenticate(username=username, password=password)
-            
-            if user:
-                if user.is_active:
-                    auth_login(request,user)
-                    return HttpResponseRedirect(reverse('home'))
-
-            messages.error(request,'There was an error when you tried to login.. please try again')
-        
+            if User_Verification.login_verify(request, username, password): 
+                user = authenticate(username=username, password=password)
+                if user:
+                    if user.is_active:
+                        auth_login(request,user)
+                        return HttpResponseRedirect(reverse('home'))
+                messages.error(request,'There was an error when you tried to login.. please try again', extra_tags='SignUpError')
         if request.POST.get('signupbtn'):
             username = request.POST.get('usernameSignup')
             email = request.POST.get('emailSignupPri')
             password = request.POST.get('passwordSignupPri')
             passwordVerifiction = request.POST.get('passwordSignupSec')
 
-            if True:# TODO: verify(username, password):
+            if User_Verification.signup_verify(request, username, email, password, passwordVerifiction): 
 
+                #figure out what type of customer signed up and what database they belong too 
                 if request.POST.get('optradio') == 'Customer':
                     UserCheck = Database_Interface.set_userprofile(request,email,username,password,'')
                 else: 
@@ -65,19 +60,12 @@ def login(request):
                     if user is not None:
                         auth_login(request,user)
                         return HttpResponseRedirect(reverse('home'))
-                else:#TODO fix error message
-                    messages.error(request,'A username or email already exists')
-        
+                else:
+                    messages.error(request,'A username or email already exists', extra_tags='SignUpError')
         return render(request, 'app/login.html')
      
     else:
-        #form = SignUpForm()
         return render(request, 'app/login.html', {})
-
-        #TODO: move all user input to user_verification.py
-        #TODO: create a verification function
-        def verify(username, password):
-            return True
 
 
 

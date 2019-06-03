@@ -14,7 +14,9 @@
                         {% if messages %}
                             <ul class="messages">
                             {% for message in messages %}
-                                <p style="color: red">{{ message }}</p>
+                                 {%if message.extra_tags == 'LoginUpError'%}
+                                    <p style="color: red">{{ message }}</p>
+                                {%endif%}
                             {% endfor %}
                             </ul>
                         {% endif %}
@@ -41,7 +43,9 @@
                         {% if messages %}
                             <ul class="messages">
                             {% for message in messages %}
-                                <p style="color: red">{{ message }}</p>
+                                {% if message.extra_tags == 'SignUpError'%}
+                                    <p style="color: red">{{ message }}</p>
+                                {%endif%}
                             {% endfor %}
                             </ul>
                         {% endif %}
