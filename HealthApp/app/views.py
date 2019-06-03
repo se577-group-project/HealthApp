@@ -41,7 +41,7 @@ def login(request):
                         auth_login(request,user)
                         return HttpResponseRedirect(reverse('home'))
                 messages.error(request,'There was an error when you tried to login.. please try again', extra_tags='SignUpError')
-        if request.POST.get('signupbtn'):
+        elif request.POST.get('signupbtn'):
             username = request.POST.get('usernameSignup')
             email = request.POST.get('emailSignupPri')
             password = request.POST.get('passwordSignupPri')
@@ -70,15 +70,28 @@ def login(request):
 
 
 
-def contact(request): ##TODO: Remove Module
-    """Renders the contact page."""
+def search(request): 
+    """Renders the search page."""
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/contact.html',
+        'app/search.html',
         {
-            'title':'Contact',
-            'message':'Your contact page.',
+            'title':'Search',
+            'message':'Your search page.',
+            'year':datetime.now().year,
+        }
+    )
+
+def profile(request): 
+    """Renders the profile page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/profile.html',
+        {
+            'title':'Profile',
+            'message':'Your Profile page.',
             'year':datetime.now().year,
         }
     )

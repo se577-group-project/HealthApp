@@ -28,7 +28,7 @@ class User_Verification():
     def check_username(request,username,pagetype):
         if not username:
             messages.error(request, 'Username is blank', extra_tags=pagetype)
-        return False
+        return True
 
     def check_password(request,password1, password2, pagetype):
         if not password1 and pagetype == 'LoginUpError':
@@ -37,9 +37,9 @@ class User_Verification():
             messages.error(request,'password is blank', extra_tags=pagetype)
         elif not password1 == password2:
             messages.error(request,'password dont match', extra_tags=pagetype)
-        return False
+        return True
 
     def check_email(request,email,pagetype):
         if not email:
             messages.error(request, 'email is blank', extra_tags=pagetype)
-        return False
+        return True

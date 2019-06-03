@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/login.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/searchbar.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" >
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
 
@@ -26,7 +28,9 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                    {%endif%}
                 </ul>
                 {% include 'app/loginpartial.html' %}
             </div>
