@@ -37,6 +37,16 @@
                     <h3>Sign Up</h3>
                     <form action="{% url 'login' %}" method="post" class="form-horizontal">
                         {% csrf_token %}
+
+                        {% if messages %}
+                            <ul class="messages">
+                            {% for message in messages %}
+                                <p style="color: red">{{ message }}</p>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+
+
                         <div class="form-group">
                             <input type="text" name="usernameSignup" class="form-control" placeholder="Your Username *" value="" />
                         </div>
@@ -50,8 +60,8 @@
                             <input type="password" name="passwordSignupSec" class="form-control" placeholder="Re-Type Your Password *" value="" />
                         </div>
                         <div class="form-group">
-                            <label class="radio-inline"><input type="radio" name="customeroptradio" checked>Customer</label>
-                            <label class="radio-inline"><input type="radio" name="businessoptradio">Business</label>
+                            <label class="radio-inline" ><input type="radio" name="optradio" value="Customer"checked>Customer</label>
+                            <label class="radio-inline" ><input type="radio" name="optradio" value="Business">Business</label>
                         </div>
                         <div class="form-group">
                             <input type="submit" name="signupbtn" class="btnSubmit" value="Register" />

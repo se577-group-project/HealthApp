@@ -8,9 +8,11 @@ from django.contrib.auth import login as auth_login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from app.models import UsersProfile
+#from app.models import UsersProfile
 from django.contrib.auth.models import User
 from django.contrib import messages
+from app.database_interface import Database_Interface
+
 
 
 def home(request):
@@ -28,11 +30,13 @@ def home(request):
 
 def login(request):
     if request.method == 'POST':
+        #form = SignUpForm(request.POST)
         if request.POST.get('loginbtn'):
             username = request.POST.get('usernameLogin')
             password = request.POST.get('passwordLogin')
 
-            #verify(username, password) TODO: uncomment when method is implemented
+            #TODO: uncomment when method is implemented
+            #verify(username, password) 
 
             user = authenticate(username=username, password=password)
             
@@ -49,30 +53,25 @@ def login(request):
             password = request.POST.get('passwordSignupPri')
             passwordVerifiction = request.POST.get('passwordSignupSec')
 
-            if 'customeroptradio' in request.POST:
-                customertype = request.POST.get('customeroptradio')
-            else:
-                customertype = request.POST.get('businessoptradio')
-
             if True:# TODO: verify(username, password):
 
-                user = User.objects.create_user(username=username, email=email, password=password)
-                user.save()
-
-                #TODO: add users to database
-
-                user = authenticate(request, username=username, password=password)
-
-                if user is not None:
-                    auth_login(request,user)
-            
-                    return HttpResponseRedirect(reverse('home'))
-        
-                #TODO: Add error messages 
+                if request.POST.get('optradio') == 'Customer':
+                    UserCheck = Database_Interface.set_userprofile(request,email,username,password,'')
+                else: 
+                    UserCheck = Database_Interface.set_healthcare(request, email, username, password, '', '', '','')
+                
+                if UserCheck:
+                    user = authenticate(request, username=username, password=password)
+                    if user is not None:
+                        auth_login(request,user)
+                        return HttpResponseRedirect(reverse('home'))
+                else:#TODO fix error message
+                    messages.error(request,'A username or email already exists')
         
         return render(request, 'app/login.html')
      
     else:
+        #form = SignUpForm()
         return render(request, 'app/login.html', {})
 
         #TODO: move all user input to user_verification.py
