@@ -45,19 +45,18 @@ class HealthCare (models.Model):
         return str(self.username)
 
 
-#class Reviews (models.Model):
+class Reviews (models.Model):
     
     #each review is assiated with a company
-#    hc_id = models.ForeignKey(HealthCare, on_delete=models.CASCADE)
-    
-#    user_id = models.CharField(max_length=20, blank=True)
+    hc_id = models.ForeignKey(HealthCare, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UsersProfile, on_delete=models.CASCADE)
 
     #review of a store
-#    review = models.TextField(default=False)
+    review = models.TextField(default=False)
 
     #store an dup incase user has mutiple reviews for the same company
 #    dup = models.CharField(max_length=1, blank=True)
     
     #store stars as text 1 - 5 for thge amount of stars
-#    stars = models.CharField(max_length=1, blank=True)
+    stars = models.CharField(max_length=1, blank=True)
 

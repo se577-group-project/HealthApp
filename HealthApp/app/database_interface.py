@@ -22,7 +22,7 @@ class Database_Interface ():
     @staticmethod
     def set_userprofile (request, email, username, password, bio):
         if Database_Interface.check_profile (username, email):
-            users = Database_Interface.set_profile (username)
+            users = Database_Interface.set_profile (username, email, password)
             UsersProfile(username=users,bio=bio).save()
             return True
         return False
@@ -36,7 +36,6 @@ class Database_Interface ():
         return False
 
 
-    #TODO complete function
     @staticmethod
     def check_profile (username, email):
         if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists() :
@@ -47,12 +46,6 @@ class Database_Interface ():
     #TODO complete function
     @staticmethod
     def set_review (request, CustomerUsername, BusinessUsername, review, stars):
-        return True
-
-
-    #TODO complete function
-    @staticmethod
-    def set_profile (username, email):
         return True
 
 
