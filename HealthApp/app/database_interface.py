@@ -6,6 +6,7 @@ if functionailty does not exist, update this model and not the database itself
 
 from django.contrib.auth.models import User
 from app.models import UsersProfile, HealthCare
+from django.shortcuts import get_object_or_404, render
 #from app.models import Reviews
 
 class Database_Interface ():
@@ -44,7 +45,17 @@ class Database_Interface ():
 
     @staticmethod
     def check_profile_type(id):
-        return "Business" if HealthCare.objects.filter(username_id=id).exists() else "Customer"
+        return "Business" if HealthCare.objects.filter(pk=id).exists() else "Customer"
+
+    @staticmethod
+    def get_userprofile (id):
+        obj = get_object_or_404(UsersProfile, pk=id)
+        return obj.__dict__
+
+    @staticmethod
+    def get_healthcare (id):
+        obj = get_object_or_404(HealthCare,pk=id) 
+        return obj.__dict__
 
 
     #TODO complete function
@@ -52,16 +63,6 @@ class Database_Interface ():
     def set_review (request, CustomerUsername, BusinessUsername, review, stars):
         return True
 
-
-    #TODO complete function
-    @staticmethod
-    def get_userprofile (username):
-        return True
-
-    #TODO complete function
-    @staticmethod
-    def get_healthcare (username):
-        return True
 
     #TODO complete function
     @staticmethod

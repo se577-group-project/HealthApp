@@ -3,5 +3,13 @@
 
 <h2>Profile: {{ user.username }}</h2>
 <h3>Account Type: {{ profile_type }}</h3>
+<br></br>
+<h4>Biography: {{profile_data.bio}}</h4>
+
+{% if profile_type == "Business" %}
+    <h4>Website: <a href="https://{{profile_data.website}}">{{profile_data.website}}</a></h4>
+    <h4>Telephone Number: {{profile_data.phonenumber}}</h4>
+    <h4>Location: {{profile_data.location}}</h4>
+{% endif %}
 
 {% endblock %}

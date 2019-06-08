@@ -87,10 +87,15 @@ def profile(request):
     """Renders the profile page."""
     assert isinstance(request, HttpRequest)
     profile_type = Database_Interface.check_profile_type(request.user.id)
+    if profile_type.lower() == "business":
+        profile_data = Database_Interface.get_healthcare(request.user.id)
+    else:
+        profile_data = Database_Interface.get_userprofile(request.user.id)
     return render(
         request,
         'app/profile.html',
-        {"profile_type": profile_type}
+        {"profile_type": profile_type,
+         "profile_data": profile_data}
     )
 
 def about(request): ##TODO: Remove module
