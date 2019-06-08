@@ -42,6 +42,10 @@ class Database_Interface ():
             return False
         return True
 
+    @staticmethod
+    def check_profile_type(id):
+        return "Business" if HealthCare.objects.filter(username_id=id).exists() else "Customer"
+
 
     #TODO complete function
     @staticmethod

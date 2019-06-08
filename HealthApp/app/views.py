@@ -86,14 +86,11 @@ def search(request):
 def profile(request): 
     """Renders the profile page."""
     assert isinstance(request, HttpRequest)
+    profile_type = Database_Interface.check_profile_type(request.user.id)
     return render(
         request,
         'app/profile.html',
-        {
-            'title':'Profile',
-            'message':'Your Profile page.',
-            'year':datetime.now().year,
-        }
+        {"profile_type": profile_type}
     )
 
 def about(request): ##TODO: Remove module
