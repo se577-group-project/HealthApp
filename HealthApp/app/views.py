@@ -89,13 +89,16 @@ def profile(request):
     profile_type = Database_Interface.check_profile_type(request.user.id)
     if profile_type.lower() == "business":
         profile_data = Database_Interface.get_healthcare(request.user.id)
+        reviews = Database_Interface.get_reviews_by_healthcare(request.user.id)
     else:
         profile_data = Database_Interface.get_userprofile(request.user.id)
+        reviews = Database_Interface.get_reviews_by_user(request.user.id)
     return render(
         request,
         'app/profile.html',
         {"profile_type": profile_type,
-         "profile_data": profile_data}
+         "profile_data": profile_data,
+         "reviews": reviews}
     )
 
 def about(request): ##TODO: Remove module
@@ -104,9 +107,5 @@ def about(request): ##TODO: Remove module
     return render(
         request,
         'app/about.html',
-        {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
-        }
+        {}
     )

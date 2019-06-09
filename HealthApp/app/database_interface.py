@@ -5,7 +5,7 @@ if functionailty does not exist, update this model and not the database itself
 '''
 
 from django.contrib.auth.models import User
-from app.models import UsersProfile, HealthCare
+from app.models import UsersProfile, HealthCare, Reviews
 from django.shortcuts import get_object_or_404, render
 #from app.models import Reviews
 
@@ -57,17 +57,19 @@ class Database_Interface ():
         obj = get_object_or_404(HealthCare,pk=id) 
         return obj.__dict__
 
+    @staticmethod
+    def get_reviews_by_healthcare (id):
+        return list(Reviews.objects.filter(business_id=id).values('stars', 'review', 'reviewer__username__username'))
+
+    @staticmethod
+    def get_reviews_by_user (id):
+        return list(Reviews.objects.filter(reviewer_id=id).values('stars', 'review', 'business__username__username'))
 
     #TODO complete function
     @staticmethod
     def set_review (request, CustomerUsername, BusinessUsername, review, stars):
         return True
 
-
-    #TODO complete function
-    @staticmethod
-    def get_review (BusinessUsername):
-        return True
 
     #TODO complete function
     @staticmethod
