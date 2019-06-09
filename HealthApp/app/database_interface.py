@@ -88,7 +88,9 @@ class Database_Interface ():
 
     #TODO complete function
     @staticmethod
-    def delete_account(username):
+    def delete_account(request):
+        request.user.delete()
+        logout(request)
         return True
 
     #TODO complete function
