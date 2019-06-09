@@ -30,6 +30,9 @@ class HealthCare (models.Model):
     #connected to another database table that holds password and username
     username = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
 
+    #business type
+    #businesstype = models.TextField(default=False) 
+
     #user profile bio is stored here
     bio = models.TextField(default=False) 
 
@@ -48,14 +51,14 @@ class HealthCare (models.Model):
 
 class Reviews (models.Model):
     
-    #each review is assiated with a company
+    #each review is associated with a company and a profile
     business = models.ForeignKey(HealthCare, on_delete=models.CASCADE)
     reviewer = models.ForeignKey(UsersProfile, on_delete=models.CASCADE)
 
     #review of a store
     review = models.TextField(default=False)
     
-    #store stars as text 1 - 5 for thge amount of stars
+    #store stars as integer 1 - 5 for thge amount of stars
     stars = models.IntegerField(default=0,
                                 validators=[MaxValueValidator(5), MinValueValidator(0)]
                                 )

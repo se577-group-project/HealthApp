@@ -27,6 +27,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'search' %}">HealthCare</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'profile' %}">My Profile</a></li>
                     {%endif%}
@@ -47,6 +48,8 @@
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>
+    <script src="{% static 'app/scripts/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'app/scripts/infinite.min.js' %}"></script>
 {% block scripts %}{% endblock %}
 
 </body>

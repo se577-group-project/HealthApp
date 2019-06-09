@@ -1,0 +1,5 @@
+setup.py
+bower.egg-info/PKG-INFO
+bower.egg-info/SOURCES.txt
+bower.egg-info/dependency_links.txt
+bower.egg-info/top_level.txt

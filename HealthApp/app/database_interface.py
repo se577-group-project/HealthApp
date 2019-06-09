@@ -58,6 +58,10 @@ class Database_Interface ():
         return obj.__dict__
 
     @staticmethod
+    def get_all_healthcare():
+        return HealthCare.objects.all()
+
+    @staticmethod
     def get_reviews_by_healthcare (id):
         return list(Reviews.objects.filter(business_id=id).values('stars', 'review', 'reviewer__username__username'))
 
@@ -74,7 +78,23 @@ class Database_Interface ():
         _review.save()
         return True
 
-    #TODO complete function
+    @staticmethod
+    def search_healthcare(username):
+        return HealthCare.objects.filter(username__username__icontains=username)
+
+    @staticmethod
+    def delete_account(request):
+        request.user.delete()
+        logout(request)
+        return True
+
+    @staticmethod
+    def delete_comment(request):
+        insance = Reviews.objects.filter(id=request.user.id)
+        insance.delete()
+        return True
+
+        #TODO complete function
     @staticmethod
     def update_profile (username, email, password):
         return True
@@ -87,17 +107,5 @@ class Database_Interface ():
     #TODO complete function
     @staticmethod
     def update_healthcare (username, password, bio, address, website, phonenumber,location):
-        return True
-
-    #TODO complete function
-    @staticmethod
-    def delete_account(request):
-        request.user.delete()
-        logout(request)
-        return True
-
-    #TODO complete function
-    @staticmethod
-    def delete_comment(BusinessUsername, CustomerUsername, ID):
         return True
 

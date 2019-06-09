@@ -12,6 +12,9 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from app.database_interface import Database_Interface
 from app.user_verification import User_Verification
+from django.core.paginator import Paginator
+from app.models import HealthCare
+from django.views.generic.list import ListView
 
 
 
@@ -53,7 +56,7 @@ def login(request):
                 if request.POST.get('optradio') == 'Customer':
                     UserCheck = Database_Interface.set_userprofile(request,email,username,password,'')
                 else: 
-                    UserCheck = Database_Interface.set_healthcare(request, email, username, password, '', '', '','')
+                    UserCheck = Database_Interface.set_healthcare(request, email,username, password, '', '', '','')
                 
                 if UserCheck:
                     user = authenticate(request, username=username, password=password)
@@ -85,19 +88,6 @@ def review(request):
         return HttpResponseRedirect(reverse('home'))
 
 
-
-def search(request): 
-    """Renders the search page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/search.html',
-        {
-            'title':'Search',
-            'message':'Your search page.',
-            'year':datetime.now().year,
-        }
-    )
 
 def profile(request): 
     """Renders the profile page."""
@@ -133,3 +123,29 @@ def get_user_profile(request, username):
                    "profile_type": profile_type,
                    "profile_data": profile_data,
                    "reviews": reviews})
+
+
+class ListSearchView(ListView):
+    #template_name = 'app/search.html'
+    #context_object_name = 'ProfileList'
+    #model = HealthCare
+    paginate_by = 5
+
+    def get(self, request, *args, **kwargs):
+        ProfileList = Database_Interface.get_all_healthcare()
+        context = {'ProfileList': ProfileList}
+        return render(request, "app/search.html", context=context)
+    
+    def post(self, request, *args, **kwargs):
+        if request.POST.get('searchbutton'):
+            ProfileList = Database_Interface.search_healthcare(request.POST.get('searchtext'))
+        context = {'ProfileList': ProfileList}
+        return render(request, "app/search.html", context=context)
+
+#TODO: Remove later
+def search(request): 
+    if request.method == 'POST':
+        return HttpResponseRedirect(reverse('search'))
+
+    accounts = Database_Interface.get_all_healthcare()
+    return render(request, 'app/search.html', {'accounts': accounts})

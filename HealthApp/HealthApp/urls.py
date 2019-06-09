@@ -10,11 +10,11 @@ from app import forms, views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('search/', views.search, name='search'),
     path('profile/', views.profile, name='profile'),
     path('login/', views.login, name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('admin/', admin.site.urls),
     path('user_profile/<str:username>', views.get_user_profile),
     path('review/', views.review, name='review'),
+    path('HealthCare/', views.ListSearchView.as_view(), name='search')
 ]

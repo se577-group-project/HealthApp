@@ -14,12 +14,4 @@
 </ul>
 
 {% endif %}
-<ul class="nav navbar-nav navbar-right">
-    <div class="search-container">
-    <form action="{% url 'search' %}" method="post">
-      {% csrf_token %}
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
-  </div>
-</ul>
+
