@@ -28,6 +28,7 @@
     {% if reviews %}
         <h2>Reviews</h2>
         {% for review in reviews%}
+        <hr>
         <table>
         <tr><th>Reviewed:</th><td>{{review.business__username__username}}</td></tr>
         <tr><th>Stars: </th><td> {% for x in review.stars|times %}⭐{% endfor %} </td></tr>

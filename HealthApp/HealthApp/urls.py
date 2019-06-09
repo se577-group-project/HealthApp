@@ -15,5 +15,6 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('admin/', admin.site.urls),
-    path('user_profile/<str:username>', views.get_user_profile)
+    path('user_profile/<str:username>', views.get_user_profile),
+    path('review/', views.review, name='review'),
 ]

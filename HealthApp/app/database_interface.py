@@ -65,11 +65,14 @@ class Database_Interface ():
     def get_reviews_by_user (id):
         return list(Reviews.objects.filter(reviewer_id=id).values('stars', 'review', 'business__username__username'))
 
-    #TODO complete function
+
     @staticmethod
     def set_review (request, CustomerUsername, BusinessUsername, review, stars):
+        cid = User.objects.get(username=CustomerUsername).id
+        bid = User.objects.get(username=BusinessUsername).id
+        _review = Reviews(reviewer_id=cid, business_id=bid, review=review, stars=stars)
+        _review.save()
         return True
-
 
     #TODO complete function
     @staticmethod

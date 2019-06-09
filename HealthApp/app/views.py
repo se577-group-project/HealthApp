@@ -68,6 +68,22 @@ def login(request):
         return render(request, 'app/login.html', {})
 
 
+def review(request):
+    if request.method == 'POST':
+        if request.POST.get('submitReviewBtn'):
+            stars = request.POST.get('starCount')
+            review_text = request.POST.get('reviewText')
+            business_name = request.POST.get('businessName')
+            reviewer_name = request.POST.get('reviewerName')
+            ReviewCheck = Database_Interface.set_review(request, reviewer_name, business_name, review_text, stars)
+            if ReviewCheck:
+                messages.success(request, 'Review has been submitted!')
+            else:
+                messages.error(request, 'Review could not be submitted at this time')
+        return render(request, 'app/index.html')
+    else:
+        return HttpResponseRedirect(reverse('home'))
+
 
 
 def search(request): 
