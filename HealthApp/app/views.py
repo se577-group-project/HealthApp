@@ -101,11 +101,7 @@ def profile(request):
          "reviews": reviews}
     )
 
-def about(request): ##TODO: Remove module
-    """Renders the about page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/about.html',
-        {}
-    )
+
+def get_user_profile(request, username):
+    user = User.objects.get(username=username)
+    return render(request, 'app/user_profile.html', {"user":user})
