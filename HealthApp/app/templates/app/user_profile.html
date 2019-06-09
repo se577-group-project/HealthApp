@@ -1,0 +1,63 @@
+﻿{% extends "app/layout.html" %}
+{% load my_filters %}
+{% block content %}
+
+<h2>Profile: {{ profile_user.username }}</h2>
+<h3>Account Type: {{ profile_type }}</h3>
+<hr>
+<h4>Biography: {{profile_data.bio}}</h4>
+
+{% if profile_type == "Business" %}
+    <h4>Website: <a href="https://{{profile_data.website}}">{{profile_data.website}}</a></h4>
+    <h4>Telephone Number: {{profile_data.phonenumber}}</h4>
+    <h4>Location: {{profile_data.location}}</h4>
+    {% if user.is_authenticated and user.username != profile_user.username %}
+        <hr>
+        <h3>Review</h3>
+            <form action="/review/" method="post" oninput="starCount.value = starCount.valueAsNumber">
+                 {% csrf_token %}
+                <div class="form-group">
+                    <input type="range" class="form-control" name="starCount" startmin="1" max="5" default="3" step="1">
+                    <output id="starCount" for="stars"></output> stars
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="reviewText" placeholder="Your Review">
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="businessName" value={{profile_user}}>
+                    <input type="hidden" name="reviewerName" value={{user}}>
+                    <input type="submit" name="submitReviewBtn" value="Submit">
+                </div>
+            </form>
+    {% endif %}
+    <hr>
+    {% if reviews %}
+        <h2>Recent Reviews</h2>
+        {% for review in reviews%}
+        <table>
+        <tr><th>Reviewer:</th><td>{{review.reviewer__username__username}}</td></tr>
+        <tr><th>Stars: </th><td> {% for x in review.stars|times %}⭐{% endfor %} </td></tr>
+        <tr><th>Review:</th><td>{{review.review}}</td></tr>
+        </table>
+        {% endfor %}
+    {% else %}
+        <h3>No Reviews found</h3>
+    {% endif %}
+{% else %}
+    {% if reviews %}
+        <h2>Reviews</h2>
+        {% for review in reviews%}
+        <hr>
+        <table>
+            <tr><th>Reviewed:</th><td>{{review.business__username__username}}</td></tr>
+            <tr><th>Stars: </th><td> {% for x in review.stars|times %}⭐{% endfor %} </td></tr>
+            <tr><th>Review:</th><td>{{review.review}}</td></tr>
+        </table>
+        {% endfor %}
+    {% else %}
+        <h3>No Reviews found</h3>
+    {% endif %}
+
+{% endif %}
+
+{% endblock %}

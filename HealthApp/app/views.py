@@ -68,6 +68,22 @@ def login(request):
         return render(request, 'app/login.html', {})
 
 
+def review(request):
+    if request.method == 'POST':
+        if request.POST.get('submitReviewBtn'):
+            stars = request.POST.get('starCount')
+            review_text = request.POST.get('reviewText')
+            business_name = request.POST.get('businessName')
+            reviewer_name = request.POST.get('reviewerName')
+            ReviewCheck = Database_Interface.set_review(request, reviewer_name, business_name, review_text, stars)
+            if ReviewCheck:
+                messages.success(request, 'Review has been submitted!')
+            else:
+                messages.error(request, 'Review could not be submitted at this time')
+        return render(request, 'app/index.html')
+    else:
+        return HttpResponseRedirect(reverse('home'))
+
 
 
 def search(request): 
@@ -86,25 +102,34 @@ def search(request):
 def profile(request): 
     """Renders the profile page."""
     assert isinstance(request, HttpRequest)
+    profile_type = Database_Interface.check_profile_type(request.user.id)
+    if profile_type.lower() == "business":
+        profile_data = Database_Interface.get_healthcare(request.user.id)
+        reviews = Database_Interface.get_reviews_by_healthcare(request.user.id)
+    else:
+        profile_data = Database_Interface.get_userprofile(request.user.id)
+        reviews = Database_Interface.get_reviews_by_user(request.user.id)
     return render(
         request,
         'app/profile.html',
-        {
-            'title':'Profile',
-            'message':'Your Profile page.',
-            'year':datetime.now().year,
-        }
+        {"profile_type": profile_type,
+         "profile_data": profile_data,
+         "reviews": reviews}
     )
 
-def about(request): ##TODO: Remove module
-    """Renders the about page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/about.html',
-        {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
-        }
-    )
+
+def get_user_profile(request, username):
+    _user = User.objects.get(username=username)
+    profile_type = Database_Interface.check_profile_type(_user.id)
+    if profile_type.lower() == "business":
+        profile_data = Database_Interface.get_healthcare(_user.id)
+        reviews = Database_Interface.get_reviews_by_healthcare(_user.id)
+    else:
+        profile_data = Database_Interface.get_userprofile(_user.id)
+        reviews = Database_Interface.get_reviews_by_user(_user.id)
+
+    return render(request, 'app/user_profile.html', 
+                  {"profile_user": _user,
+                   "profile_type": profile_type,
+                   "profile_data": profile_data,
+                   "reviews": reviews})

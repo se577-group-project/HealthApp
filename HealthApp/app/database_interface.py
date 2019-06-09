@@ -5,7 +5,8 @@ if functionailty does not exist, update this model and not the database itself
 '''
 
 from django.contrib.auth.models import User
-from app.models import UsersProfile, HealthCare
+from app.models import UsersProfile, HealthCare, Reviews
+from django.shortcuts import get_object_or_404, render
 #from app.models import Reviews
 
 class Database_Interface ():
@@ -22,7 +23,7 @@ class Database_Interface ():
     @staticmethod
     def set_userprofile (request, email, username, password, bio):
         if Database_Interface.check_profile (username, email):
-            users = Database_Interface.set_profile (username)
+            users = Database_Interface.set_profile (username, email, password)
             UsersProfile(username=users,bio=bio).save()
             return True
         return False
@@ -36,39 +37,41 @@ class Database_Interface ():
         return False
 
 
-    #TODO complete function
     @staticmethod
     def check_profile (username, email):
         if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists() :
             return False
         return True
 
+    @staticmethod
+    def check_profile_type(id):
+        return "Business" if HealthCare.objects.filter(pk=id).exists() else "Customer"
 
-    #TODO complete function
+    @staticmethod
+    def get_userprofile (id):
+        obj = get_object_or_404(UsersProfile, pk=id)
+        return obj.__dict__
+
+    @staticmethod
+    def get_healthcare (id):
+        obj = get_object_or_404(HealthCare,pk=id) 
+        return obj.__dict__
+
+    @staticmethod
+    def get_reviews_by_healthcare (id):
+        return list(Reviews.objects.filter(business_id=id).values('stars', 'review', 'reviewer__username__username'))
+
+    @staticmethod
+    def get_reviews_by_user (id):
+        return list(Reviews.objects.filter(reviewer_id=id).values('stars', 'review', 'business__username__username'))
+
+
     @staticmethod
     def set_review (request, CustomerUsername, BusinessUsername, review, stars):
-        return True
-
-
-    #TODO complete function
-    @staticmethod
-    def set_profile (username, email):
-        return True
-
-
-    #TODO complete function
-    @staticmethod
-    def get_userprofile (username):
-        return True
-
-    #TODO complete function
-    @staticmethod
-    def get_healthcare (username):
-        return True
-
-    #TODO complete function
-    @staticmethod
-    def get_review (BusinessUsername):
+        cid = User.objects.get(username=CustomerUsername).id
+        bid = User.objects.get(username=BusinessUsername).id
+        _review = Reviews(reviewer_id=cid, business_id=bid, review=review, stars=stars)
+        _review.save()
         return True
 
     #TODO complete function
