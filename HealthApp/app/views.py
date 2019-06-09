@@ -103,5 +103,17 @@ def profile(request):
 
 
 def get_user_profile(request, username):
-    user = User.objects.get(username=username)
-    return render(request, 'app/user_profile.html', {"user":user})
+    _user = User.objects.get(username=username)
+    profile_type = Database_Interface.check_profile_type(_user.id)
+    if profile_type.lower() == "business":
+        profile_data = Database_Interface.get_healthcare(_user.id)
+        reviews = Database_Interface.get_reviews_by_healthcare(_user.id)
+    else:
+        profile_data = Database_Interface.get_userprofile(_user.id)
+        reviews = Database_Interface.get_reviews_by_user(_user.id)
+
+    return render(request, 'app/user_profile.html', 
+                  {"profile_user": _user,
+                   "profile_type": profile_type,
+                   "profile_data": profile_data,
+                   "reviews": reviews})
