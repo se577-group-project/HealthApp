@@ -75,6 +75,7 @@
     <Content Include="app\templates\app\profile.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="app\templates\app\user_profile.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />

@@ -137,8 +137,7 @@ class ListSearchView(ListView):
         return render(request, "app/search.html", context=context)
     
     def post(self, request, *args, **kwargs):
-        if request.POST.get('searchbutton'):
-            ProfileList = Database_Interface.search_healthcare(request.POST.get('searchtext'))
+        ProfileList = Database_Interface.search_healthcare(request.POST.get('searchtext'))
         context = {'ProfileList': ProfileList}
         return render(request, "app/search.html", context=context)
 

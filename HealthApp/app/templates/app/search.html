@@ -13,7 +13,12 @@
 <div class="infinite-container">
     {% for profile in ProfileList %}
     <div class="infinite-item">
-        <h3>{{ profile.username }}</h3>
+        <h2>Profile: {{ profile.username }}</h2>
+        <h3>Account Type: {{ profile.profile_type }}</h3>
+        <h4>Biography: {{profile.bio}}</h4>
+        <h4>Website: <a href="https://{{profile.website}}">{{profile.website}}</a></h4>
+        <h4>Telephone Number: {{profile.phonenumber}}</h4>
+        <h4>Location: {{profile.location}}</h4>
     </div>
     {% endfor %}
 </div>
