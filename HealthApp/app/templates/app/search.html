@@ -13,7 +13,7 @@
 <div class="infinite-container">
     {% for profile in ProfileList %}
     <div class="infinite-item">
-        <h2>Profile: {{ profile.username }}</h2>
+        <h2>Profile: <a href="{% url 'user_profile' profile.username %}"> {{ profile.username }}</a></h2>
         <h3>Account Type: {{ profile.profile_type }}</h3>
         <h4>Biography: {{profile.bio}}</h4>
         <h4>Website: <a href="https://{{profile.website}}">{{profile.website}}</a></h4>
@@ -23,7 +23,7 @@
     {% endfor %}
 </div>
 
-{% if numbers.has_next %}
+{% if profile.has_next %}
 <a class="infinite-more-link" href="?page={{ numbers.next_page_number }}">More</a>
 {% endif %}
 

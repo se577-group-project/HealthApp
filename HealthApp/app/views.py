@@ -137,9 +137,14 @@ class ListSearchView(ListView):
         return render(request, "app/search.html", context=context)
     
     def post(self, request, *args, **kwargs):
+        if request.POST.get('expandbtn'):
+            get_user_profile(request,request.POST.get(''))
         ProfileList = Database_Interface.search_healthcare(request.POST.get('searchtext'))
         context = {'ProfileList': ProfileList}
         return render(request, "app/search.html", context=context)
+    
+    def get_absolute_url(self):
+        return reverse('user_profile', args=[str(self.username)])
 
 #TODO: Remove later
 def search(request): 
