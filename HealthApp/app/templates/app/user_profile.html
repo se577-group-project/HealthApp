@@ -34,6 +34,7 @@
     {% if reviews %}
         <h2>Recent Reviews</h2>
         {% for review in reviews%}
+        <hr>
         <table>
         <tr><th>Reviewer:</th><td>{{review.reviewer__username__username}}</td></tr>
         <tr><th>Stars: </th><td> {% for x in review.stars|times %}⭐{% endfor %} </td></tr>
