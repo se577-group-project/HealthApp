@@ -12,7 +12,6 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from app.database_interface import Database_Interface
 from app.user_verification import User_Verification
-from app.forms import EditHealthCareProfileForm, EditUsersProfileForm
 from django.core.paginator import Paginator
 from app.models import HealthCare
 from django.views.generic.list import ListView
@@ -150,24 +149,25 @@ class ListSearchView(ListView):
     def get_absolute_url(self):
         return reverse('user_profile', args=[str(self.username)])
 
+def go_to_edit_profile(requests):
+    profile_type = Database_Interface.check_profile_type(requests.user.id)
+    if profile_type.lower() == "business":
+        profile_data = Database_Interface.get_healthcare(requests.user.id)
+    else:
+        profile_data = Database_Interface.get_userprofile(requests.user.id)
+    return render(requests, 'app/edit_profile.html', {"profile_type":profile_type,
+                                                      "profile_data":profile_data})
 
-def edit_profile(requests):
+def update_profile(requests):
     profile_type = Database_Interface.check_profile_type(requests.user.id)
     if requests.method == 'POST':
         if profile_type.lower() == "business":
-            form = EditHealthCareProfileForm(requests.POST, instance=requests.user)
+            Database_Interface.update_healthcare(requests.user, requests.POST.get("bio"), requests.POST.get("location"),
+                                                 requests.POST.get("website"),  requests.POST.get("phonenumber"), )
         else:
-            form = EditUsersProfileForm(requests.POST, instance=requests.user)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('profile'))
-    else:
-        if profile_type.lower() == "business":
-            form = EditHealthCareProfileForm(instance=requests.user)
-        else:
-            form = EditUsersProfileForm(instance=requests.user)
-        args = {'form': form}
-        return render(requests, 'app/edit_profile.html', args)
+            Database_Interface.update_userprofile(requests.user, requests.POST.get("bio"))
+        return HttpResponseRedirect(reverse('profile'))
+    return HttpResponseRedirect(reverse('home'))
         
 #TODO: Remove later
 def search(request): 

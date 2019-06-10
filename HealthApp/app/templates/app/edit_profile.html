@@ -1,13 +1,40 @@
 ﻿{% extends "app/layout.html" %}
 {% block content %}
 
-<div class="container">
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-    <br>
-</div>
+<h1> Editing User Profile</h1>
+{% if profile_type == "Business" %}
+    <div>
+        <form action="update" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="bio" class="form-control" placeholder="bio" value="{{ profile_data.bio }}" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="location" class="form-control" placeholder="location" value="{{ profile_data.location }}" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="website" class="form-control" placeholder="website" value="{{ profile_data.website }}" />
+            </div>
+            <div class="form-group">
+                <input type="text" name="phonenumber" class="form-control" placeholder="phonenumber" value="{{ profile_data.phonenumber }}" />
+            </div>
+            <div class="form-group">
+                <input type="submit" name="submitBtn" class="btnSubmit" value="Submit" />
+            </div>
+        </form>
+    </div>
+{% else %}
+    <div>
+        <form action="update" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="bio" class="form-control" placeholder="bio" value="{{ profile_data.bio }}" />
+            </div>
+            <div class="form-group">
+                <input type="submit" name="submitBtn" class="btnSubmit" value="Submit" />
+            </div>
+        </form>
+    </div>
+{% endif %}
 
 {% endblock %}

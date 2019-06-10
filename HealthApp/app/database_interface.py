@@ -36,6 +36,23 @@ class Database_Interface ():
             return True
         return False
 
+    @staticmethod
+    def update_userprofile (username, bio):
+        _obj = UsersProfile.objects.get(pk=username)
+        _obj.bio = bio
+        _obj.save()
+        return True
+
+    @staticmethod
+    def update_healthcare (username, bio, location, website, phonenumber):
+        _obj = HealthCare.objects.get(pk=username)
+        _obj.bio = bio
+        _obj.location = location
+        _obj.website = website
+        _obj.phonenumber = phonenumber
+        _obj.save()
+        return True
+
 
     @staticmethod
     def check_profile (username, email):
@@ -97,15 +114,5 @@ class Database_Interface ():
         #TODO complete function
     @staticmethod
     def update_profile (username, email, password):
-        return True
-
-    #TODO complete function
-    @staticmethod
-    def update_userprofile (username, password, bio):
-        return True
-
-    #TODO complete function
-    @staticmethod
-    def update_healthcare (username, password, bio, address, website, phonenumber,location):
         return True
 

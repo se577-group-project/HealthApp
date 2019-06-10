@@ -17,5 +17,6 @@ urlpatterns = [
     path('user_profile/<str:username>', views.get_user_profile, name='user_profile'),
     path('review/', views.review, name='review'),
     path('HealthCare/', views.ListSearchView.as_view(), name='search'),
-    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    path('profile/edit/', views.go_to_edit_profile, name='go_to_edit_profile'),
+    path('profile/edit/update', views.update_profile, name='update_profile'),
 ]
