@@ -83,7 +83,7 @@ def review(request):
                 messages.success(request, 'Review has been submitted!')
             else:
                 messages.error(request, 'Review could not be submitted at this time')
-        return render(request, 'app/index.html')
+        return get_user_profile(request, business_name)
     else:
         return HttpResponseRedirect(reverse('home'))
 

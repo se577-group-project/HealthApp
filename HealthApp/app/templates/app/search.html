@@ -14,7 +14,7 @@
     {% for profile in ProfileList %}
     <div class="infinite-item">
         <h2>Profile: <a href="{% url 'user_profile' profile.username %}"> {{ profile.username }}</a></h2>
-        <h3>Account Type: {{ profile.profile_type }}</h3>
+        <h3>Account Type: HealthCare</h3>
         <h4>Biography: {{profile.bio}}</h4>
         <h4>Website: <a href="https://{{profile.website}}">{{profile.website}}</a></h4>
         <h4>Telephone Number: {{profile.phonenumber}}</h4>

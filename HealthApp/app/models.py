@@ -59,7 +59,7 @@ class Reviews (models.Model):
     review = models.TextField(default=False)
     
     #store stars as integer 1 - 5 for thge amount of stars
-    stars = models.IntegerField(default=0,
-                                validators=[MaxValueValidator(5), MinValueValidator(0)]
+    stars = models.IntegerField(default=1,
+                                validators=[MaxValueValidator(5), MinValueValidator(1)]
                                 )
 
