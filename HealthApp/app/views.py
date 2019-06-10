@@ -111,7 +111,9 @@ def profile(request):
 def get_user_profile(request, username):
     _user = User.objects.get(username=username)
     profile_type = Database_Interface.check_profile_type(_user.id)
+    req_user_profile_type = Database_Interface.check_profile_type(request.user.id)
     if profile_type.lower() == "business":
+
         profile_data = Database_Interface.get_healthcare(_user.id)
         reviews = Database_Interface.get_reviews_by_healthcare(_user.id)
     else:
@@ -122,7 +124,8 @@ def get_user_profile(request, username):
                   {"profile_user": _user,
                    "profile_type": profile_type,
                    "profile_data": profile_data,
-                   "reviews": reviews})
+                   "reviews": reviews,
+                   "req_user_profile_type": req_user_profile_type})
 
 
 class ListSearchView(ListView):
