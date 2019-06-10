@@ -14,7 +14,7 @@ class UsersProfile (models.Model):
     #connected to another database table that holds password and username
     username = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
     #user profile bio is stored here
-    bio = models.TextField(default=False) 
+    bio = models.TextField(blank=True) 
 
     def __str__(self):
         return str(self.username)
@@ -34,10 +34,10 @@ class HealthCare (models.Model):
     #businesstype = models.TextField(default=False) 
 
     #user profile bio is stored here
-    bio = models.TextField(default=False) 
+    bio = models.TextField(blank=True) 
 
     #business website if users want to visit
-    website = models.URLField(max_length=50)
+    website = models.URLField(max_length=50, blank=True)
 
     #business contact number
     phonenumber = models.CharField(max_length=20, blank=True)

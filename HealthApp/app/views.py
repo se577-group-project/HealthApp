@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from app.database_interface import Database_Interface
 from app.user_verification import User_Verification
+from app.forms import EditHealthCareProfileForm, EditUsersProfileForm
 from django.core.paginator import Paginator
 from app.models import HealthCare
 from django.views.generic.list import ListView
@@ -149,6 +150,25 @@ class ListSearchView(ListView):
     def get_absolute_url(self):
         return reverse('user_profile', args=[str(self.username)])
 
+
+def edit_profile(requests):
+    profile_type = Database_Interface.check_profile_type(requests.user.id)
+    if requests.method == 'POST':
+        if profile_type.lower() == "business":
+            form = EditHealthCareProfileForm(requests.POST, instance=requests.user)
+        else:
+            form = EditUsersProfileForm(requests.POST, instance=requests.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('profile'))
+    else:
+        if profile_type.lower() == "business":
+            form = EditHealthCareProfileForm(instance=requests.user)
+        else:
+            form = EditUsersProfileForm(instance=requests.user)
+        args = {'form': form}
+        return render(requests, 'app/edit_profile.html', args)
+        
 #TODO: Remove later
 def search(request): 
     if request.method == 'POST':
@@ -156,3 +176,5 @@ def search(request):
 
     accounts = Database_Interface.get_all_healthcare()
     return render(request, 'app/search.html', {'accounts': accounts})
+
+

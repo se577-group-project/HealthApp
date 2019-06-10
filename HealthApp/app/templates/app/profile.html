@@ -4,6 +4,7 @@
 
 <h2>Profile: {{ user.username }}</h2>
 <h3>Account Type: {{ profile_type }}</h3>
+<a href="{% url 'edit_profile' %}">Edit Profile</a>
 <hr>
 <h4>Biography: {{profile_data.bio}}</h4>
 

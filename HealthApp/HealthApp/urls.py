@@ -16,5 +16,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user_profile/<str:username>', views.get_user_profile, name='user_profile'),
     path('review/', views.review, name='review'),
-    path('HealthCare/', views.ListSearchView.as_view(), name='search')
+    path('HealthCare/', views.ListSearchView.as_view(), name='search'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
 ]
