@@ -6,7 +6,10 @@ and exposed us to real
 implementation of the architectures
  we draw and adapt the necessary 
 changes as we go. The peer reviews 
-gave us a taste of working in an agile environment and we tried our best to include anything that we thought was feasible for us. 
+gave us a taste of working in an 
+agile environment and we tried our
+ best to include anything that we 
+thought was feasible for us. 
 We learned that the development of 
 a software starts with a customer 
 need. As we go through the 
